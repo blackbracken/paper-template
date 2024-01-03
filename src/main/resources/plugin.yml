@@ -1,0 +1,4 @@
+name: paper-template
+version: '${version}'
+main: black.bracken.papertemplate.Main
+api-version: '1.20'
