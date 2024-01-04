@@ -1,9 +1,9 @@
 plugins {
-    id 'java'
+    id "java"
 }
 
-group = 'black.bracken'
-version = '1.0-SNAPSHOT'
+group = "black.bracken"
+version = "1.0-SNAPSHOT"
 
 repositories {
     mavenCentral()
@@ -17,11 +17,36 @@ repositories {
     }
 }
 
-dependencies {
-    compileOnly "io.papermc.paper:paper-api:1.20.4-R0.1-SNAPSHOT"
+configurations {
+    embed
+    compileOnly.extendsFrom(embed)
+}
 
-    testCompileOnly "io.papermc.paper:paper-api:1.20.4-R0.1-SNAPSHOT"
-    testImplementation 'org.junit.jupiter:junit-jupiter:5.10.1'
+dependencies {
+    def paperApiVersion = "1.20.4-R0.1-SNAPSHOT"
+    compileOnly "io.papermc.paper:paper-api:$paperApiVersion"
+    testCompileOnly "io.papermc.paper:paper-api:$paperApiVersion"
+
+    def vavrVersion = "0.10.4"
+    embed "io.vavr:vavr:$vavrVersion"
+    testCompileOnly "io.vavr:vavr:$vavrVersion"
+
+    def lombokVersion = "1.18.30"
+    embed "org.projectlombok:lombok:$lombokVersion"
+    annotationProcessor "org.projectlombok:lombok:$lombokVersion"
+    testCompileOnly "org.projectlombok:lombok:$lombokVersion"
+    testAnnotationProcessor "org.projectlombok:lombok:$lombokVersion"
+
+    def guiceVersion = "7.0.0"
+    embed "com.google.inject:guice:$guiceVersion"
+
+    def junitVersion = "5.10.1"
+    testImplementation "org.junit.jupiter:junit-jupiter:$junitVersion"
+}
+
+jar {
+    from configurations.embed.collect { it.isDirectory() ? it : zipTree(it) }
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 }
 
 def targetJavaVersion = 17
@@ -43,8 +68,8 @@ tasks.withType(JavaCompile).configureEach {
 processResources {
     def props = [version: version]
     inputs.properties props
-    filteringCharset 'UTF-8'
-    filesMatching('plugin.yml') {
+    filteringCharset "UTF-8"
+    filesMatching("plugin.yml") {
         expand props
     }
 }

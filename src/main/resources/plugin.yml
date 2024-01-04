@@ -1,4 +1,4 @@
 name: paper-template
 version: '${version}'
-main: black.bracken.papertemplate.Main
+main: black.bracken.papertemplate.EntryPoint
 api-version: '1.20'
