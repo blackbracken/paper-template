@@ -16,8 +16,7 @@ IntelliJ IDEAで利用するにはConfigurationsにShell Scriptとして上記�
 
 ## Environment
 - [JDK 17](https://openjdk.java.net/projects/jdk/17/)
-- Minecraft 1.20.4
-  - [PaperMC 1.20.4](https://papermc.io/downloads/paper)
+- [PaperMC 1.20.4](https://papermc.io/downloads/paper)
 
 
 ### Used libraries
