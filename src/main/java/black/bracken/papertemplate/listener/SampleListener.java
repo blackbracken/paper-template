@@ -15,35 +15,36 @@ import org.bukkit.event.player.PlayerInteractEvent;
 
 public class SampleListener implements Listener {
 
-  @Inject
-  private SampleUsecase sampleUsecase;
+  @Inject private SampleUsecase sampleUsecase;
 
   @EventHandler
   public void onPlayerInteract(PlayerInteractEvent event) {
     val player = event.getPlayer();
     if (!player.isOp()
-      || player.getInventory().getItemInMainHand().getType() != Material.STICK
-      || event.getAction() != Action.LEFT_CLICK_AIR
-    ) {
+        || player.getInventory().getItemInMainHand().getType() != Material.STICK
+        || event.getAction() != Action.LEFT_CLICK_AIR) {
       return;
     }
 
-    val itemAmount = List.of(player.getInventory().getContents())
-      .map(item -> item != null && item.getType() != Material.AIR ? item.getAmount() : 0)
-      .sum()
-      .intValue();
+    val itemAmount =
+        List.of(player.getInventory().getContents())
+            .map(item -> item != null && item.getType() != Material.AIR ? item.getAmount() : 0)
+            .sum()
+            .intValue();
 
-    val text = Component.text()
-      .color(NamedTextColor.AQUA)
-      .content("You have ")
-      .append(Component.text(Integer.toString(itemAmount))
-        .color(NamedTextColor.GOLD)
-        .decoration(TextDecoration.BOLD, true)
-      )
-      .append(Component.text(" items! and 2 * " + itemAmount + " = " + sampleUsecase.invoke(itemAmount)))
-      .build();
+    val text =
+        Component.text()
+            .color(NamedTextColor.AQUA)
+            .content("You have ")
+            .append(
+                Component.text(Integer.toString(itemAmount))
+                    .color(NamedTextColor.GOLD)
+                    .decoration(TextDecoration.BOLD, true))
+            .append(
+                Component.text(
+                    " items! and 2 * " + itemAmount + " = " + sampleUsecase.invoke(itemAmount)))
+            .build();
 
     player.sendMessage(text);
   }
-
 }

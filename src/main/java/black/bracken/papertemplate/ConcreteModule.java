@@ -9,5 +9,4 @@ public final class ConcreteModule extends AbstractModule {
   protected void configure() {
     bind(SampleUsecase.class).asEagerSingleton();
   }
-
 }

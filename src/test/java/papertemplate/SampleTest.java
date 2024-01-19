@@ -5,7 +5,5 @@ import org.junit.jupiter.api.BeforeEach;
 public final class SampleTest {
 
   @BeforeEach
-  public void setUp() {
-  }
-
+  public void setUp() {}
 }

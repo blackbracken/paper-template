@@ -13,15 +13,11 @@ public final class EntryPoint extends JavaPlugin {
     val injector = Guice.createInjector(new ConcreteModule());
 
     val pluginManager = getServer().getPluginManager();
-    pluginManager.registerEvents(
-      injector.getInstance(SampleListener.class),
-      this
-    );
+    pluginManager.registerEvents(injector.getInstance(SampleListener.class), this);
   }
 
   @Override
   public void onDisable() {
     HandlerList.unregisterAll(this);
   }
-
 }
