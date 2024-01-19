@@ -8,10 +8,16 @@
 - [lombok](https://projectlombok.org/)
 - [junit5](https://junit.org/junit5/)
 
+## Setup
+
+```powershell
+cp ./pre-commit ./.git/hooks/pre-commit
+```
+
 ## Commands
 
-|         command         |           usage           |
-|:-----------------------:|:-------------------------:|
-|   ./build_and_run.ps1   | ビルドとpaperの再起動(powershell) |
-|     ./gradlew test      |         unit test         |
-| ./gradlew spotlessApply |          フォーマット           |
+|         command         |                       usage                        |
+|:-----------------------:|:--------------------------------------------------:|
+|   ./build_and_run.ps1   | build and reboot the server for debug (powershell) |
+|     ./gradlew test      |                     unit test                      |
+| ./gradlew spotlessApply |                      reformat                      |
