@@ -76,7 +76,7 @@ processResources {
 }
 
 spotless {
-    // ratchetFrom 'origin/main'
+    ratchetFrom 'origin/main'
 
     java {
         trimTrailingWhitespace()
