@@ -1,19 +1,23 @@
 package black.bracken.papertemplate.listener;
 
 import black.bracken.papertemplate.usecase.SampleUsecase;
+import black.bracken.papertemplate.util.PaperScheduler;
 import com.google.inject.Inject;
+import io.reactivex.rxjava3.core.Observable;
 import io.vavr.collection.List;
+import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 import lombok.val;
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.format.NamedTextColor;
-import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.plugin.Plugin;
 
 public class SampleListener implements Listener {
+
+  @Inject private Plugin plugin;
 
   @Inject private SampleUsecase sampleUsecase;
 
@@ -26,25 +30,19 @@ public class SampleListener implements Listener {
       return;
     }
 
-    val itemAmount =
-        List.of(player.getInventory().getContents())
-            .map(item -> item != null && item.getType() != Material.AIR ? item.getAmount() : 0)
-            .sum()
-            .intValue();
+    Observable.interval(3, TimeUnit.SECONDS)
+        .take(5)
+        .observeOn(PaperScheduler.sync(plugin))
+        .subscribe(
+            i -> {
+              val itemAmount =
+                  List.of(player.getInventory().getContents())
+                      .filter(item -> item != null && item.getType() != Material.AIR)
+                      .map(item -> Objects.requireNonNull(item).getAmount())
+                      .sum()
+                      .intValue();
 
-    val text =
-        Component.text()
-            .color(NamedTextColor.AQUA)
-            .content("You have ")
-            .append(
-                Component.text(Integer.toString(itemAmount))
-                    .color(NamedTextColor.GOLD)
-                    .decoration(TextDecoration.BOLD, true))
-            .append(
-                Component.text(
-                    " items! and 2 * " + itemAmount + " = " + sampleUsecase.invoke(itemAmount)))
-            .build();
-
-    player.sendMessage(text);
+              player.sendMessage("you have " + itemAmount + "items.");
+            });
   }
 }

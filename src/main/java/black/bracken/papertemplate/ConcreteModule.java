@@ -1,12 +1,18 @@
 package black.bracken.papertemplate;
 
-import black.bracken.papertemplate.usecase.SampleUsecase;
 import com.google.inject.AbstractModule;
+import org.bukkit.plugin.Plugin;
 
 public final class ConcreteModule extends AbstractModule {
 
+  private final Plugin plugin;
+
+  public ConcreteModule(Plugin plugin) {
+    this.plugin = plugin;
+  }
+
   @Override
   protected void configure() {
-    bind(SampleUsecase.class).asEagerSingleton();
+    bind(Plugin.class).toInstance(plugin);
   }
 }
