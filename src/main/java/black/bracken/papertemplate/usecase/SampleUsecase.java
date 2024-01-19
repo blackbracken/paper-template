@@ -1,8 +1,15 @@
 package black.bracken.papertemplate.usecase;
 
-public final class SampleUsecase {
+import com.google.inject.ImplementedBy;
 
-  public int invoke(int number) {
-    return 2 * number;
+@ImplementedBy(SampleUsecase.SampleUsecaseImpl.class)
+public interface SampleUsecase {
+  int invoke(int number);
+
+  final class SampleUsecaseImpl implements SampleUsecase {
+    @Override
+    public int invoke(int number) {
+      return 2 * number;
+    }
   }
 }
