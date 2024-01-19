@@ -20,15 +20,15 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'
+      - name: Setup gradle
+        uses: gradle/gradle-build-action@bd5760595778326ba7f1441bcf7e88b49de61a25 # v2.6.0
       - name: Run spotless check
         run: ./gradlew spotlessCheck
-      - name: Build with Gradle
-        uses: gradle/gradle-build-action@bd5760595778326ba7f1441bcf7e88b49de61a25 # v2.6.0
-        with:
-          arguments: build
+      - name: Run build
+        run: ./gradlew build
       - name: Cache plugin jar
         uses: actions/upload-artifact@v4
         with:
-          retention-days: 7
+          retention-days: 1
           name: plugin
           path: build/libs/*.jar
