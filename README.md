@@ -17,6 +17,8 @@
 
 ```powershell
 cp ./pre-commit ./.git/hooks/pre-commit
+winget install -e --id OpenJS.NodeJS
+npm i
 ```
 
 ## Commands
