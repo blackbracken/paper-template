@@ -17,32 +17,36 @@ import org.bukkit.plugin.Plugin;
 
 public class SampleListener implements Listener {
 
-  @Inject private Plugin plugin;
+  @Inject
+  private Plugin plugin;
 
-  @Inject private SampleUsecase sampleUsecase;
+  @Inject
+  private SampleUsecase sampleUsecase;
 
   @EventHandler
   public void onPlayerInteract(PlayerInteractEvent event) {
     val player = event.getPlayer();
-    if (!player.isOp()
-        || player.getInventory().getItemInMainHand().getType() != Material.STICK
-        || event.getAction() != Action.LEFT_CLICK_AIR) {
+    if (
+      !player.isOp() ||
+      player.getInventory().getItemInMainHand().getType() != Material.STICK ||
+      event.getAction() != Action.LEFT_CLICK_AIR
+    ) {
       return;
     }
 
-    Observable.interval(3, TimeUnit.SECONDS)
-        .take(5)
-        .observeOn(PaperScheduler.sync(plugin))
-        .subscribe(
-            i -> {
-              val itemAmount =
-                  List.of(player.getInventory().getContents())
-                      .filter(item -> item != null && item.getType() != Material.AIR)
-                      .map(item -> Objects.requireNonNull(item).getAmount())
-                      .sum()
-                      .intValue();
+    Observable
+      .interval(3, TimeUnit.SECONDS)
+      .take(5)
+      .observeOn(PaperScheduler.sync(plugin))
+      .subscribe(i -> {
+        val itemAmount = List
+          .of(player.getInventory().getContents())
+          .filter(item -> item != null && item.getType() != Material.AIR)
+          .map(item -> Objects.requireNonNull(item).getAmount())
+          .sum()
+          .intValue();
 
-              player.sendMessage("you have " + itemAmount + "items.");
-            });
+        player.sendMessage("you have " + itemAmount + "items.");
+      });
   }
 }
