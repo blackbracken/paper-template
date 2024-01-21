@@ -12,6 +12,10 @@
 - testing
   - [junit5](https://junit.org/junit5/)
   - [truth](https://truth.dev/)
+- formatter
+  - [spotless](https://github.com/diffplug/spotless)
+  - [prettier](https://prettier.io/)
+    - [prettier-java](https://github.com/jhipster/prettier-java)
 
 ## Setup
 
