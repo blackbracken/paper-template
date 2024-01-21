@@ -4,7 +4,6 @@ import com.google.common.annotations.VisibleForTesting;
 import io.reactivex.rxjava3.core.Scheduler;
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
 import io.reactivex.rxjava3.disposables.Disposable;
-import io.vavr.collection.List;
 import java.util.concurrent.TimeUnit;
 import lombok.val;
 import org.bukkit.plugin.Plugin;
@@ -42,8 +41,7 @@ public final class PaperScheduler extends Scheduler {
 
     private final BukkitScheduler scheduler;
     private final Plugin plugin;
-    private final CompositeDisposable compositeDisposable =
-      new CompositeDisposable();
+    private final CompositeDisposable compositeDisposable = new CompositeDisposable();
 
     private PaperWorker(BukkitScheduler scheduler, Plugin plugin) {
       this.scheduler = scheduler;
@@ -67,25 +65,6 @@ public final class PaperScheduler extends Scheduler {
       return disposable;
     }
 
-    private void f() {
-      val soLongLongLongLongVariableName = 1;
-      val x = List
-        .of(
-          List
-            .of(soLongLongLongLongVariableName, soLongLongLongLongVariableName)
-            .map(List::of),
-          List.of(
-            List.of(soLongLongLongLongVariableName),
-            List.of(soLongLongLongLongVariableName)
-          )
-        )
-        .flatMap(lists -> lists);
-      val y = List.of(
-        List.of(soLongLongLongLongVariableName, soLongLongLongLongVariableName),
-        List.of(soLongLongLongLongVariableName, soLongLongLongLongVariableName)
-      );
-    }
-
     @Override
     public Disposable schedule(Runnable run, long delay, TimeUnit unit) {
       val disposable = new BukkitTaskDisposable(scheduler.runTask(plugin, run));
@@ -94,18 +73,8 @@ public final class PaperScheduler extends Scheduler {
     }
 
     @Override
-    public Disposable schedulePeriodically(
-      Runnable run,
-      long initialDelay,
-      long period,
-      TimeUnit unit
-    ) {
-      val task = scheduler.runTaskTimer(
-        plugin,
-        run,
-        convertToTicks(initialDelay, unit),
-        convertToTicks(period, unit)
-      );
+    public Disposable schedulePeriodically(Runnable run, long initialDelay, long period, TimeUnit unit) {
+      val task = scheduler.runTaskTimer(plugin, run, convertToTicks(initialDelay, unit), convertToTicks(period, unit));
       val disposable = new BukkitTaskDisposable(task);
       compositeDisposable.add(disposable);
       return disposable;
@@ -117,8 +86,7 @@ public final class PaperScheduler extends Scheduler {
     }
   }
 
-  private record BukkitTaskDisposable(BukkitTask bukkitTask)
-    implements Disposable {
+  private record BukkitTaskDisposable(BukkitTask bukkitTask) implements Disposable {
     @Override
     public void dispose() {
       bukkitTask.cancel();

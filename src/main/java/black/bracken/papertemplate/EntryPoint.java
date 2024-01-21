@@ -26,12 +26,7 @@ public final class EntryPoint extends JavaPlugin {
     HandlerList.unregisterAll(this);
   }
 
-  private void registerEvents(
-    Injector injector,
-    Class<? extends Listener> clazz
-  ) {
-    getServer()
-      .getPluginManager()
-      .registerEvents(injector.getInstance(clazz), this);
+  private void registerEvents(Injector injector, Class<? extends Listener> clazz) {
+    getServer().getPluginManager().registerEvents(injector.getInstance(clazz), this);
   }
 }

@@ -27,9 +27,7 @@ public class SampleListener implements Listener {
   public void onPlayerInteract(PlayerInteractEvent event) {
     val player = event.getPlayer();
     if (
-      !player.isOp() ||
-      player.getInventory().getItemInMainHand().getType() != Material.STICK ||
-      event.getAction() != Action.LEFT_CLICK_AIR
+      !player.isOp() || player.getInventory().getItemInMainHand().getType() != Material.STICK || event.getAction() != Action.LEFT_CLICK_AIR
     ) {
       return;
     }
